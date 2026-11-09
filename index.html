@@ -14,52 +14,59 @@
         body {
             font-family: 'Inter', sans-serif, "Hiragino Kaku Gothic ProN", "Meiryo";
         }
-        /* Custom scrollbar for table */
-        .table-container::-webkit-scrollbar {
-            height: 8px;
-            width: 8px;
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            height: 6px;
+            width: 6px;
         }
-        .table-container::-webkit-scrollbar-track {
+        ::-webkit-scrollbar-track {
             background: #f1f5f9;
         }
-        .table-container::-webkit-scrollbar-thumb {
+        ::-webkit-scrollbar-thumb {
             background: #cbd5e1;
             border-radius: 4px;
         }
-        .table-container::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen pb-12">
+<body class="bg-slate-50 text-slate-800 min-h-screen pb-12 min-w-[320px]">
 
     <!-- Header Navigation -->
     <header class="bg-slate-900 text-white shadow-lg sticky top-0 z-30">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <div class="bg-emerald-500 text-white p-2 rounded-lg flex items-center justify-center shadow">
-                    <i class="fa-solid font-bold fa-calculator text-xl"></i>
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2.5 sm:py-0 sm:h-16 flex flex-col sm:flex-row items-center justify-between gap-2">
+            <div class="flex items-center justify-between w-full sm:w-auto">
+                <div class="flex items-center space-x-2.5">
+                    <div class="bg-emerald-500 text-white p-1.5 sm:p-2 rounded-lg flex items-center justify-center shadow">
+                        <i class="fa-solid font-bold fa-calculator text-lg sm:text-xl"></i>
+                    </div>
+                    <h1 class="text-base sm:text-xl font-bold tracking-tight">返済計画シミュレーター</h1>
                 </div>
-                <h1 class="text-xl font-bold tracking-tight">返済計画シミュレーター</h1>
+                <!-- Mobile Share Button -->
+                <button id="btn-share-url-mobile" class="sm:hidden px-2.5 py-1 text-xs bg-emerald-600 hover:bg-emerald-500 text-white font-medium rounded-lg shadow transition flex items-center gap-1">
+                    <i class="fa-solid fa-share-nodes"></i> 共有URL
+                </button>
             </div>
-            <div class="text-xs sm:text-sm text-slate-400">
-                <i class="fa-solid fa-calendar-days mr-1"></i> 毎月11日 / 月末 払い(土日祝日の場合翌日)
+            
+            <div class="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-3 text-xs text-slate-300">
+                <div class="leading-tight text-center sm:text-right">
+                    <i class="fa-solid fa-calendar-days text-emerald-400 mr-1"></i>
+                    <span>毎月11日 / 月末 払い※土日祝日の場合翌日※16:00まで</span>
+                </div>
+                <!-- Desktop Share Button -->
+                <button id="btn-share-url" class="hidden sm:flex px-3 py-1.5 text-xs bg-emerald-600 hover:bg-emerald-500 text-white font-medium rounded-lg shadow transition items-center gap-1.5">
+                    <i class="fa-solid fa-share-nodes"></i> 共有URLを発行
+                </button>
             </div>
-            <!-- Dynamic Share URL Button -->
-            <button id="btn-share-url" class="px-3 py-1.5 text-xs bg-emerald-600 hover:bg-emerald-500 text-white font-medium rounded-lg shadow transition flex items-center gap-1.5">
-                <i class="fa-solid fa-share-nodes"></i> 共有URLを発行
-            </button>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 space-y-6">
+    <main class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-4 sm:pt-8 space-y-4 sm:space-y-6">
 
         <!-- Initial Parameter Controls -->
-        <section class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-5 sm:p-6 transition-all">
-            <h2 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-4 sm:p-6 transition-all">
+            <h2 class="text-base sm:text-lg font-bold text-slate-900 mb-3 sm:mb-4 flex items-center gap-2">
                 <i class="fa-solid fa-sliders text-emerald-600"></i> 初期返済条件設定
             </h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
                 <!-- Total Debt -->
                 <div>
                     <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1" for="init-debt">
@@ -67,8 +74,8 @@
                     </label>
                     <div class="relative rounded-lg shadow-sm">
                         <input type="number" id="init-debt" value="1273873" min="1" 
-                            class="w-full pl-3 pr-8 py-2.5 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 font-semibold focus:ring-2 focus:ring-emerald-500 focus:bg-white focus:outline-none transition">
-                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-500 text-sm">円</div>
+                            class="w-full pl-3 pr-8 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 font-semibold text-sm focus:ring-2 focus:ring-emerald-500 focus:bg-white focus:outline-none transition">
+                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-500 text-xs sm:text-sm">円</div>
                     </div>
                 </div>
 
@@ -78,7 +85,7 @@
                         初回支払い日
                     </label>
                     <input type="date" id="start-date" value="2026-09-30" 
-                        class="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 font-semibold focus:ring-2 focus:ring-emerald-500 focus:bg-white focus:outline-none transition">
+                        class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 font-semibold text-sm focus:ring-2 focus:ring-emerald-500 focus:bg-white focus:outline-none transition">
                 </div>
 
                 <!-- Number of Payments -->
@@ -88,83 +95,88 @@
                     </label>
                     <div class="relative rounded-lg shadow-sm">
                         <input type="number" id="pay-count" value="38" min="1" max="240" 
-                            class="w-full pl-3 pr-8 py-2.5 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 font-semibold focus:ring-2 focus:ring-emerald-500 focus:bg-white focus:outline-none transition">
-                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-500 text-sm">回</div>
+                            class="w-full pl-3 pr-8 py-2 bg-slate-50 border border-slate-300 rounded-lg text-slate-900 font-semibold text-sm focus:ring-2 focus:ring-emerald-500 focus:bg-white focus:outline-none transition">
+                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-500 text-xs sm:text-sm">回</div>
                     </div>
                 </div>
             </div>
 
             <!-- Generate Schedule Button -->
-            <div class="mt-5 flex justify-end">
+            <div class="mt-4 sm:mt-5 flex justify-end">
                 <button id="btn-recalculate" 
-                    class="w-full sm:w-auto px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-medium rounded-lg shadow hover:shadow-md transition flex items-center justify-center gap-2">
+                    class="w-full sm:w-auto px-5 py-2 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-medium text-sm rounded-lg shadow hover:shadow-md transition flex items-center justify-center gap-2">
                     <i class="fa-solid fa-rotate-right"></i> 初期スケジュールで自動生成
                 </button>
             </div>
         </section>
 
         <!-- Dynamic Summary Card -->
-        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
-                <div class="text-xs font-medium text-slate-500 mb-1">未払い初期金額</div>
-                <div class="text-2xl font-bold text-slate-900" id="summary-init-debt">¥1,273,873</div>
+        <section class="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
+            <div class="bg-white p-3.5 sm:p-5 rounded-xl shadow-sm border border-slate-200">
+                <div class="text-[11px] sm:text-xs font-medium text-slate-500 mb-0.5 sm:mb-1">未払い初期金額</div>
+                <div class="text-base sm:text-2xl font-bold text-slate-900" id="summary-init-debt">¥1,273,873</div>
             </div>
-            <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
-                <div class="text-xs font-medium text-slate-500 mb-1">現在の返済合計</div>
-                <div class="text-2xl font-bold text-emerald-600" id="summary-total-paid">¥0</div>
+            <div class="bg-white p-3.5 sm:p-5 rounded-xl shadow-sm border border-slate-200">
+                <div class="text-[11px] sm:text-xs font-medium text-slate-500 mb-0.5 sm:mb-1">現在の返済合計</div>
+                <div class="text-base sm:text-2xl font-bold text-emerald-600" id="summary-total-paid">¥0</div>
             </div>
-            <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
-                <div class="text-xs font-medium text-slate-500 mb-1">最終残高</div>
-                <div class="text-2xl font-bold" id="summary-final-balance">¥0</div>
-                <div class="text-xs mt-1 text-slate-500" id="summary-balance-status"></div>
+            <div class="bg-white p-3.5 sm:p-5 rounded-xl shadow-sm border border-slate-200">
+                <div class="text-[11px] sm:text-xs font-medium text-slate-500 mb-0.5 sm:mb-1">最終残高</div>
+                <div class="text-base sm:text-2xl font-bold" id="summary-final-balance">¥0</div>
+                <div class="text-[10px] sm:text-xs mt-0.5 text-slate-500" id="summary-balance-status"></div>
             </div>
-            <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
-                <div class="text-xs font-medium text-slate-500 mb-1">完済予定年月日</div>
-                <div class="text-2xl font-bold text-slate-900" id="summary-finish-date">----/--/--</div>
+            <div class="bg-white p-3.5 sm:p-5 rounded-xl shadow-sm border border-slate-200">
+                <div class="text-[11px] sm:text-xs font-medium text-slate-500 mb-0.5 sm:mb-1">完済予定年月日</div>
+                <div class="text-base sm:text-2xl font-bold text-slate-900" id="summary-finish-date">----/--/--</div>
             </div>
         </section>
 
         <!-- Notification Message Box -->
-        <div id="toast-message" class="hidden p-4 rounded-xl shadow flex items-center gap-3 transition-all"></div>
+        <div id="toast-message" class="hidden p-3 sm:p-4 rounded-xl shadow flex items-center gap-2.5 text-xs sm:text-sm transition-all"></div>
 
         <!-- Repayment Schedule Table Section -->
         <section class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden">
-            <div class="p-5 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="p-4 sm:p-5 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
-                    <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                    <h2 class="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
                         <i class="fa-solid fa-list-check text-emerald-600"></i> 返済計画表
                     </h2>
-                    <p class="text-xs text-slate-500 mt-0.5">表内の「支払い年月日」「入金額」「背景色」は直接変更可能です</p>
+                    <p class="text-[11px] sm:text-xs text-slate-500 mt-0.5">「支払い年月日」「入金額」「背景色」は直接変更可能です</p>
                 </div>
                 <!-- Action Controls -->
                 <div class="flex items-center gap-2">
                     <button id="btn-evenly-split" title="手動入力をクリアして未調整分を均等再分割" 
-                        class="px-3 py-1.5 text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-lg border border-slate-300 transition flex items-center gap-1">
-                        <i class="fa-solid fa-arrows-split-up-and-left"></i> 金額均等再分配
+                        class="flex-1 sm:flex-none px-2.5 py-1.5 text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-lg border border-slate-300 transition flex items-center justify-center gap-1">
+                        <i class="fa-solid fa-arrows-split-up-and-left"></i> 均等再分配
                     </button>
                     <button id="btn-reset-colors" title="全ての背景色をクリア" 
-                        class="px-3 py-1.5 text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-lg border border-slate-300 transition flex items-center gap-1">
-                        <i class="fa-solid fa-wand-magic-sparkles"></i> 配色リセット
+                        class="flex-1 sm:flex-none px-2.5 py-1.5 text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-lg border border-slate-300 transition flex items-center justify-center gap-1">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> 色クリア
                     </button>
                 </div>
             </div>
 
-            <!-- Editable Table -->
-            <div class="table-container overflow-x-auto">
-                <table class="w-full text-left border-collapse min-w-[650px]">
+            <!-- Desktop View: Table -->
+            <div class="hidden sm:block overflow-x-auto">
+                <table class="w-full text-left border-collapse">
                     <thead>
                         <tr class="bg-slate-100 text-slate-600 text-xs font-bold uppercase tracking-wider border-b border-slate-200">
-                            <th class="py-3.5 px-4 w-16 text-center">回数</th>
-                            <th class="py-3.5 px-4 w-44">支払い年月日</th>
-                            <th class="py-3.5 px-4 w-48 text-right">入金額 (円)</th>
-                            <th class="py-3.5 px-4 w-48 text-right">未払い金残高 (円)</th>
-                            <th class="py-3.5 px-4 text-center">ハイライト背景色</th>
+                            <th class="py-3 px-4 w-16 text-center">回数</th>
+                            <th class="py-3 px-4 w-44">支払い年月日</th>
+                            <th class="py-3 px-4 w-48 text-right">入金額 (円)</th>
+                            <th class="py-3 px-4 w-48 text-right">未払い金残高 (円)</th>
+                            <th class="py-3 px-4 text-center">ハイライト背景色</th>
                         </tr>
                     </thead>
                     <tbody id="schedule-tbody" class="divide-y divide-slate-200 text-sm">
-                        <!-- Dynamic Rows Inserted via JavaScript -->
+                        <!-- Dynamic Desktop Rows Inserted via JavaScript -->
                     </tbody>
                 </table>
+            </div>
+
+            <!-- Mobile View: No Horizontal Scroll Card Layout (min 320px) -->
+            <div id="schedule-mobile-container" class="sm:hidden divide-y divide-slate-200">
+                <!-- Dynamic Mobile Cards Inserted via JavaScript -->
             </div>
         </section>
 
@@ -224,6 +236,11 @@
             document.getElementById('btn-evenly-split').addEventListener('click', resetCustomAmountsAndRecalculate);
             document.getElementById('btn-reset-colors').addEventListener('click', resetAllRowColors);
             document.getElementById('btn-share-url').addEventListener('click', shareUrlWithState);
+            
+            const btnMobile = document.getElementById('btn-share-url-mobile');
+            if (btnMobile) {
+                btnMobile.addEventListener('click', shareUrlWithState);
+            }
 
             // Check URL parameters first, otherwise generate initial state
             if (!loadStateFromUrl()) {
@@ -232,62 +249,362 @@
         }
 
         /**
-         * Encodes current app state into URL hash/query and copies to clipboard
+         * Generates initial complete schedule from form inputs
+         */
+        function generateFullScheduleFromInputs() {
+            const debtInput = parseInt(document.getElementById('init-debt').value, 10);
+            const dateInput = document.getElementById('start-date').value;
+            const countInput = parseInt(document.getElementById('pay-count').value, 10);
+
+            if (isNaN(debtInput) || debtInput <= 0 || isNaN(countInput) || countInput <= 0 || !dateInput) {
+                showToast('正しい数値を入力してください。', 'error');
+                return;
+            }
+
+            appState.initialDebt = debtInput;
+            appState.startDate = dateInput;
+            appState.payCount = countInput;
+
+            const dates = generatePaymentDates(dateInput, countInput);
+            const defaultMonthlyAmount = Math.ceil(debtInput / countInput);
+
+            appState.rows = [];
+            for (let i = 0; i < countInput; i++) {
+                appState.rows.push({
+                    id: i + 1,
+                    date: dates[i],
+                    amount: defaultMonthlyAmount,
+                    isCustomAmount: false,
+                    balance: 0,
+                    bgClass: 'bg-white'
+                });
+            }
+
+            // Adjust last row to make exact balance 0
+            redistributeRemainingDebt(0);
+            renderTable();
+        }
+
+        /**
+         * Generates payment dates adhering to 11th and 30th/end of month logic
+         */
+        function generatePaymentDates(startDateStr, count) {
+            const dates = [startDateStr];
+            if (count <= 1) return dates;
+
+            let [y, m, d] = startDateStr.split('-').map(Number);
+            let curYear = y;
+            let curMonth = m - 1; // 0-indexed month (0: Jan, 1: Feb, etc.)
+            let curDay = d;
+
+            for (let i = 1; i < count; i++) {
+                if (curDay < 11) {
+                    // Next payment is 11th of current month
+                    curDay = 11;
+                } else if (curDay === 11) {
+                    // Next payment is 30th (or last day of month) of current month
+                    const lastDayOfCurMonth = new Date(curYear, curMonth + 1, 0).getDate();
+                    curDay = Math.min(30, lastDayOfCurMonth);
+                } else {
+                    // 30th or last day (e.g., Feb 28): move to 11th of next month
+                    curMonth += 1;
+                    if (curMonth > 11) {
+                        curMonth = 0;
+                        curYear += 1;
+                    }
+                    curDay = 11;
+                }
+
+                const dateObj = new Date(curYear, curMonth, curDay);
+                dates.push(formatDateISO(dateObj));
+            }
+            return dates;
+        }
+
+        /**
+         * Recalculates balance & redistributes non-custom remaining amounts
+         */
+        function redistributeRemainingDebt(fromIndex = 0) {
+            let currentBalance = appState.initialDebt;
+
+            // Subtract amounts up to fromIndex
+            for (let i = 0; i < fromIndex; i++) {
+                currentBalance -= appState.rows[i].amount;
+                appState.rows[i].balance = currentBalance;
+            }
+
+            // Calculate remaining count and remaining balance
+            const remainingRows = appState.rows.slice(fromIndex);
+            let customSum = 0;
+            let nonCustomCount = 0;
+
+            remainingRows.forEach(row => {
+                if (row.isCustomAmount) {
+                    customSum += row.amount;
+                } else {
+                    nonCustomCount++;
+                }
+            });
+
+            const debtForNonCustom = currentBalance - customSum;
+
+            if (nonCustomCount > 0) {
+                const baseAmount = Math.max(0, Math.ceil(debtForNonCustom / nonCustomCount));
+                let runningBalance = currentBalance;
+
+                for (let i = fromIndex; i < appState.rows.length; i++) {
+                    const row = appState.rows[i];
+                    if (!row.isCustomAmount) {
+                        row.amount = baseAmount;
+                    }
+
+                    // For the last row, adjust to reach exact zero if possible
+                    if (i === appState.rows.length - 1) {
+                        const prevBalance = (i > 0) ? appState.rows[i - 1].balance : appState.initialDebt;
+                        row.amount = Math.max(0, prevBalance);
+                    }
+
+                    runningBalance -= row.amount;
+                    row.balance = runningBalance;
+                }
+            } else {
+                let runningBalance = currentBalance;
+                for (let i = fromIndex; i < appState.rows.length; i++) {
+                    runningBalance -= appState.rows[i].amount;
+                    appState.rows[i].balance = runningBalance;
+                }
+            }
+
+            updateSummary();
+        }
+
+        /**
+         * Resets all custom user amounts to even split
+         */
+        function resetCustomAmountsAndRecalculate() {
+            appState.rows.forEach(r => r.isCustomAmount = false);
+            redistributeRemainingDebt(0);
+            renderTable();
+            showToast('すべての入金額を均等再分配しました。', 'info');
+        }
+
+        /**
+         * Resets all row highlight colors
+         */
+        function resetAllRowColors() {
+            appState.rows.forEach(r => r.bgClass = 'bg-white');
+            renderTable();
+            showToast('すべての背景色をクリアしました。', 'info');
+        }
+
+        /**
+         * Updates top summary statistics cards
+         */
+        function updateSummary() {
+            const initDebtEl = document.getElementById('summary-init-debt');
+            const totalPaidEl = document.getElementById('summary-total-paid');
+            const finalBalEl = document.getElementById('summary-final-balance');
+            const balStatusEl = document.getElementById('summary-balance-status');
+            const finishDateEl = document.getElementById('summary-finish-date');
+
+            if (!initDebtEl) return;
+
+            const totalPaid = appState.rows.reduce((sum, r) => sum + (parseInt(r.amount, 10) || 0), 0);
+            const finalBalance = appState.initialDebt - totalPaid;
+            const lastRow = appState.rows[appState.rows.length - 1];
+
+            initDebtEl.textContent = '¥' + appState.initialDebt.toLocaleString();
+            totalPaidEl.textContent = '¥' + totalPaid.toLocaleString();
+            finalBalEl.textContent = '¥' + finalBalance.toLocaleString();
+
+            if (finalBalance === 0) {
+                finalBalEl.className = 'text-base sm:text-2xl font-bold text-emerald-600';
+                balStatusEl.textContent = '完済達成';
+                balStatusEl.className = 'text-[10px] sm:text-xs mt-0.5 text-emerald-600 font-medium';
+            } else if (finalBalance > 0) {
+                finalBalEl.className = 'text-base sm:text-2xl font-bold text-amber-600';
+                balStatusEl.textContent = `不足: ¥${finalBalance.toLocaleString()}`;
+                balStatusEl.className = 'text-[10px] sm:text-xs mt-0.5 text-amber-600 font-medium';
+            } else {
+                finalBalEl.className = 'text-base sm:text-2xl font-bold text-indigo-600';
+                balStatusEl.textContent = `超過: ¥${Math.abs(finalBalance).toLocaleString()}`;
+                balStatusEl.className = 'text-[10px] sm:text-xs mt-0.5 text-indigo-600 font-medium';
+            }
+
+            if (lastRow && lastRow.date) {
+                finishDateEl.textContent = lastRow.date;
+            } else {
+                finishDateEl.textContent = '----/--/--';
+            }
+        }
+
+        /**
+         * Renders desktop table & mobile card layouts
+         */
+        function renderTable() {
+            const tbody = document.getElementById('schedule-tbody');
+            const mobileContainer = document.getElementById('schedule-mobile-container');
+
+            if (!tbody || !mobileContainer) return;
+
+            tbody.innerHTML = '';
+            mobileContainer.innerHTML = '';
+
+            appState.rows.forEach((row, index) => {
+                const effectiveBgClass = getEffectiveRowBgClass(row);
+
+                // --- 1. Desktop Row HTML ---
+                const tr = document.createElement('tr');
+                tr.className = `${effectiveBgClass} hover:bg-slate-50/80 transition-colors`;
+                tr.innerHTML = `
+                    <td class="py-2.5 px-4 text-center font-bold text-slate-500">${row.id}</td>
+                    <td class="py-2.5 px-4">
+                        <input type="date" value="${row.date}" data-index="${index}" 
+                            class="row-date-input w-full px-2 py-1 bg-transparent border border-slate-300 rounded text-slate-800 text-sm focus:ring-2 focus:ring-emerald-500 focus:bg-white focus:outline-none transition">
+                    </td>
+                    <td class="py-2.5 px-4 text-right">
+                        <input type="number" value="${row.amount}" data-index="${index}" min="0" 
+                            class="row-amount-input w-full px-2 py-1 bg-transparent border border-slate-300 rounded text-right font-semibold text-slate-900 text-sm focus:ring-2 focus:ring-emerald-500 focus:bg-white focus:outline-none transition">
+                    </td>
+                    <td class="py-2.5 px-4 text-right font-bold ${row.balance === 0 ? 'text-emerald-600' : 'text-slate-800'}">
+                        ¥${row.balance.toLocaleString()}
+                    </td>
+                    <td class="py-2.5 px-4 text-center">
+                        <select data-index="${index}" class="row-color-select text-xs px-2 py-1 bg-white border border-slate-300 rounded shadow-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none cursor-pointer">
+                            ${COLOR_OPTIONS.map(opt => `
+                                <option value="${opt.id}" ${row.bgClass === opt.bgClass ? 'selected' : ''}>
+                                    ${opt.label}
+                                </option>
+                            `).join('')}
+                        </select>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+
+                // --- 2. Mobile Card HTML (No horizontal scroll) ---
+                const card = document.createElement('div');
+                card.className = `p-3 sm:hidden ${effectiveBgClass} transition-colors space-y-2`;
+                card.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-slate-800 text-white text-xs font-bold">
+                            ${row.id}
+                        </span>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs text-slate-500 font-medium">残高:</span>
+                            <span class="text-sm font-bold ${row.balance === 0 ? 'text-emerald-600' : 'text-slate-900'}">
+                                ¥${row.balance.toLocaleString()}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2 text-xs">
+                        <div>
+                            <label class="block text-[10px] text-slate-500 font-semibold mb-0.5">支払い年月日</label>
+                            <input type="date" value="${row.date}" data-index="${index}" 
+                                class="row-date-input w-full px-2 py-1 bg-white border border-slate-300 rounded text-slate-800 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] text-slate-500 font-semibold mb-0.5">入金額 (円)</label>
+                            <input type="number" value="${row.amount}" data-index="${index}" min="0" 
+                                class="row-amount-input w-full px-2 py-1 bg-white border border-slate-300 rounded text-right font-semibold text-slate-900 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between pt-1 border-t border-slate-200/60">
+                        <span class="text-[10px] text-slate-500 font-semibold">背景色</span>
+                        <select data-index="${index}" class="row-color-select text-xs px-2 py-0.5 bg-white border border-slate-300 rounded focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                            ${COLOR_OPTIONS.map(opt => `
+                                <option value="${opt.id}" ${row.bgClass === opt.bgClass ? 'selected' : ''}>
+                                    ${opt.label}
+                                </option>
+                            `).join('')}
+                        </select>
+                    </div>
+                `;
+                mobileContainer.appendChild(card);
+            });
+
+            bindTableEvents();
+            updateSummary();
+            updateBrowserUrlState();
+        }
+
+        /**
+         * Binds change and focus blur events for input fields and selects
+         */
+        function bindTableEvents() {
+            // Amount Change Listener
+            document.querySelectorAll('.row-amount-input').forEach(input => {
+                const handleAmountChange = (e) => {
+                    const idx = parseInt(e.target.dataset.index, 10);
+                    const val = parseInt(e.target.value, 10) || 0;
+                    appState.rows[idx].amount = val;
+                    appState.rows[idx].isCustomAmount = true;
+                    redistributeRemainingDebt(idx + 1);
+                    renderTable();
+                };
+
+                input.addEventListener('change', handleAmountChange);
+                input.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        e.target.blur();
+                    }
+                });
+            });
+
+            // Date Change Listener
+            document.querySelectorAll('.row-date-input').forEach(input => {
+                input.addEventListener('change', (e) => {
+                    const idx = parseInt(e.target.dataset.index, 10);
+                    appState.rows[idx].date = e.target.value;
+                    renderTable();
+                });
+                input.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        e.target.blur();
+                    }
+                });
+            });
+
+            // Color Select Listener
+            document.querySelectorAll('.row-color-select').forEach(select => {
+                select.addEventListener('change', (e) => {
+                    const idx = parseInt(e.target.dataset.index, 10);
+                    const colorObj = COLOR_OPTIONS.find(c => c.id === e.target.value);
+                    appState.rows[idx].bgClass = colorObj ? colorObj.bgClass : 'bg-white';
+                    renderTable();
+                });
+            });
+        }
+
+        /**
+         * Encodes appState into base64 URL query string
          */
         function getShareableUrl() {
-            const compactState = {
-                d: appState.initialDebt,
-                s: appState.startDate,
-                c: appState.payCount,
-                r: appState.rows.map(r => [r.date, r.amount, r.isCustomAmount ? 1 : 0, r.bgClass])
-            };
-            
-            const jsonStr = JSON.stringify(compactState);
-            const encoded = encodeURIComponent(btoa(unescape(encodeURIComponent(jsonStr))));
-            
-            // Build base URL cleanly without duplicating paths/origins
-            const baseUrl = window.location.href.split('?')[0];
-            return `${baseUrl}?state=${encoded}`;
-        }
-
-        /**
-         * Updates browser URL bar without reloading the page
-         */
-        function updateBrowserUrlState() {
             try {
-                // Skip history updates in blob or non-http sandboxed environments (e.g. preview pane)
-                if (window.location.protocol.startsWith('blob') || !window.location.protocol.startsWith('http')) {
-                    return;
-                }
-                const newUrl = getShareableUrl();
-                window.history.replaceState({ path: newUrl }, '', newUrl);
+                const compactState = {
+                    d: appState.initialDebt,
+                    s: appState.startDate,
+                    c: appState.payCount,
+                    r: appState.rows.map(r => [
+                        r.date,
+                        r.amount,
+                        r.isCustomAmount ? 1 : 0,
+                        r.bgClass !== 'bg-white' ? r.bgClass : ''
+                    ])
+                };
+                const jsonStr = JSON.stringify(compactState);
+                const encoded = btoa(encodeURIComponent(jsonStr));
+                const baseUrl = window.location.href.split('?')[0];
+                return `${baseUrl}?state=${encoded}`;
             } catch (err) {
-                // Silently ignore SecurityError in restricted iframe environments
-                console.warn("Could not update URL history in this environment:", err.message);
-            }
-        }
-
-        function shareUrlWithState() {
-            try {
-                const shareUrl = getShareableUrl();
-
-                // Copy to clipboard using fallback for iframe restrictions
-                const tempInput = document.createElement('textarea');
-                tempInput.value = shareUrl;
-                document.body.appendChild(tempInput);
-                tempInput.select();
-                document.execCommand('copy');
-                document.body.removeChild(tempInput);
-
-                showToast('保存・共有用URLをクリップボードにコピーしました！', 'success');
-            } catch (err) {
-                console.error(err);
-                showToast('URLの生成に失敗しました。', 'error');
+                console.error("URL Encoding Error", err);
+                return window.location.href;
             }
         }
 
         /**
-         * Decodes state from URL query parameter
+         * Restores appState from URL parameters
          */
         function loadStateFromUrl() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -296,408 +613,105 @@
             if (!stateParam) return false;
 
             try {
-                const jsonStr = decodeURIComponent(escape(atob(decodeURIComponent(stateParam))));
-                const decoded = JSON.parse(jsonStr);
+                const decodedJson = decodeURIComponent(atob(stateParam));
+                const compactState = JSON.parse(decodedJson);
 
-                appState.initialDebt = decoded.d;
-                appState.startDate = decoded.s;
-                appState.payCount = decoded.c;
+                appState.initialDebt = compactState.d;
+                appState.startDate = compactState.s;
+                appState.payCount = compactState.c;
 
-                // Set form values
-                document.getElementById('init-debt').value = decoded.d;
-                document.getElementById('start-date').value = decoded.s;
-                document.getElementById('pay-count').value = decoded.c;
+                // Sync UI Input fields
+                document.getElementById('init-debt').value = compactState.d;
+                document.getElementById('start-date').value = compactState.s;
+                document.getElementById('pay-count').value = compactState.c;
 
-                // Reconstruct rows
-                appState.rows = decoded.r.map((r, i) => ({
-                    id: i + 1,
-                    date: r[0],
-                    amount: r[1],
-                    isCustomAmount: r[2] === 1,
-                    balance: 0,
-                    bgClass: r[3] || 'bg-white'
-                }));
+                let runningBal = compactState.d;
+                appState.rows = compactState.r.map((rowArr, idx) => {
+                    const amt = rowArr[1];
+                    runningBal -= amt;
+                    return {
+                        id: idx + 1,
+                        date: rowArr[0],
+                        amount: amt,
+                        isCustomAmount: rowArr[2] === 1,
+                        balance: runningBal,
+                        bgClass: rowArr[3] || 'bg-white'
+                    };
+                });
 
-                recalculateBalances();
                 renderTable();
-                showToast('保存されたデータから返済計画を読み込みました。', 'info');
+                showToast('URLから最新の計画データを復元しました。', 'info');
                 return true;
             } catch (err) {
-                console.error("Failed to load state from URL:", err);
+                console.error("State decode error:", err);
                 return false;
             }
         }
 
         /**
-         * Reads input parameters and initializes the plan
+         * Updates browser address bar without reload (History replaceState)
          */
-        function generateFullScheduleFromInputs() {
-            const debtInput = parseInt(document.getElementById('init-debt').value, 10);
-            const dateInput = document.getElementById('start-date').value;
-            const countInput = parseInt(document.getElementById('pay-count').value, 10);
-
-            if (isNaN(debtInput) || debtInput <= 0) {
-                showToast('有効な未払い金額を入力してください。', 'error');
-                return;
+        function updateBrowserUrlState() {
+            if (window.location.protocol === 'blob:' || window.location.protocol === 'about:') return;
+            try {
+                const shareableUrl = getShareableUrl();
+                window.history.replaceState(null, '', shareableUrl);
+            } catch (e) {
+                // Ignore history restriction errors in sandboxed contexts
             }
-            if (!dateInput) {
-                showToast('有効な開始日を選択してください。', 'error');
-                return;
-            }
-            if (isNaN(countInput) || countInput <= 0 || countInput > 500) {
-                showToast('返済回数は1〜500回の間で指定してください。', 'error');
-                return;
-            }
-
-            appState.initialDebt = debtInput;
-            appState.startDate = dateInput;
-            appState.payCount = countInput;
-
-            // Generate Dates using 11th and 30th/End-of-month logic
-            const dateList = generatePaymentDates(dateInput, countInput);
-
-            // Calculate Base Standard Payment per installment
-            const baseAmount = Math.ceil(debtInput / countInput);
-
-            // Build Rows Array
-            appState.rows = [];
-            for (let i = 0; i < countInput; i++) {
-                // Final payment adjusts remainder by default
-                let amount = baseAmount;
-                if (i === countInput - 1) {
-                    const previousTotal = baseAmount * (countInput - 1);
-                    amount = debtInput - previousTotal;
-                    if (amount < 0) amount = 0;
-                }
-
-                appState.rows.push({
-                    id: i + 1,
-                    date: dateList[i],
-                    amount: amount,
-                    isCustomAmount: false,
-                    balance: 0,
-                    bgClass: 'bg-white'
-                });
-            }
-
-            recalculateBalances();
-            renderTable();
-            showToast('新しい返済スケジュールを生成しました。', 'success');
         }
 
         /**
-         * Calculates payment dates: 11th and 30th (or end of month if shorter)
+         * Copies share URL to clipboard
          */
-        function generatePaymentDates(startStr, count) {
-            const dates = [];
-            let currentDate = new Date(startStr);
-
-            for (let i = 0; i < count; i++) {
-                if (i === 0) {
-                    dates.push(formatDateISO(currentDate));
-                    continue;
-                }
-
-                let year = currentDate.getFullYear();
-                let month = currentDate.getMonth(); // 0 - 11
-                let day = currentDate.getDate();
-
-                // 11日と30日（月末）を交互に切り替えて進めるロジック
-                if (day < 11) {
-                    // 同月11日に進む
-                    day = 11;
-                } else if (day >= 11 && day < 28) {
-                    // 同月30日に進む
-                    day = 30;
-                } else {
-                    // 翌月11日に進む
-                    month += 1;
-                    day = 11;
-                }
-
-                // 月末日オーバーの補正（2月などの30日対応）
-                const tempDate = new Date(year, month, 1);
-                year = tempDate.getFullYear();
-                month = tempDate.getMonth();
-
-                const lastDayOfMonth = new Date(year, month + 1, 0).getDate();
-                const actualDay = Math.min(day, lastDayOfMonth);
-
-                currentDate = new Date(year, month, actualDay);
-                dates.push(formatDateISO(currentDate));
-            }
-
-            return dates;
-        }
-
-        /**
-         * Recalculates remaining balance for each step and adjusts non-custom subsequent amounts
-         */
-        function recalculateBalances() {
-            let currentBalance = appState.initialDebt;
-            const totalRows = appState.rows.length;
-
-            // Step 1: Calculate balances with current row amounts
-            for (let i = 0; i < totalRows; i++) {
-                const row = appState.rows[i];
-                currentBalance -= row.amount;
-                row.balance = currentBalance;
-            }
-
-            updateSummary();
-        }
-
-        /**
-         * Automatically adjusts remaining unedited rows to evenly divide remaining balance
-         */
-        function redistributeRemainingDebt(startIndex) {
-            let currentBalance = appState.initialDebt;
+        function shareUrlWithState() {
+            const shareableUrl = getShareableUrl();
+            const tempInput = document.createElement('input');
+            tempInput.value = shareableUrl;
+            document.body.appendChild(tempInput);
+            tempInput.select();
             
-            // Subtract payments before startIndex
-            for (let i = 0; i < startIndex; i++) {
-                currentBalance -= appState.rows[i].amount;
+            try {
+                document.execCommand('copy');
+                showToast('共有URLをクリップボードにコピーしました！', 'success');
+            } catch (err) {
+                showToast('コピーに失敗しました。URLを手動でコピーしてください。', 'error');
             }
-
-            // Count remaining un-customized rows
-            let remainingUncustomizedCount = 0;
-            for (let i = startIndex; i < appState.rows.length; i++) {
-                if (!appState.rows[i].isCustomAmount) {
-                    remainingUncustomizedCount++;
-                }
-            }
-
-            if (remainingUncustomizedCount > 0 && currentBalance > 0) {
-                const newBaseAmount = Math.ceil(currentBalance / remainingUncustomizedCount);
-                let runningBalance = currentBalance;
-
-                for (let i = startIndex; i < appState.rows.length; i++) {
-                    const row = appState.rows[i];
-                    if (!row.isCustomAmount) {
-                        if (i === appState.rows.length - 1) {
-                            row.amount = Math.max(0, runningBalance);
-                        } else {
-                            row.amount = Math.min(newBaseAmount, runningBalance);
-                            runningBalance -= row.amount;
-                        }
-                    } else {
-                        runningBalance -= row.amount;
-                    }
-                }
-            }
-
-            recalculateBalances();
+            document.body.removeChild(tempInput);
         }
 
         /**
-         * Renders HTML Table Rows
+         * Formats Date to YYYY-MM-DD format
          */
-        function renderTable() {
-            const tbody = document.getElementById('schedule-tbody');
-            tbody.innerHTML = '';
-
-            appState.rows.forEach((row, index) => {
-                const effectiveBg = getEffectiveRowBgClass(row);
-                const tr = document.createElement('tr');
-                tr.className = `${effectiveBg} hover:bg-slate-100/50 transition-colors`;
-                tr.id = `row-${index}`;
-
-                // Row template
-                tr.innerHTML = `
-                    <!-- 回数 -->
-                    <td class="py-3 px-4 font-semibold text-slate-500 text-center">${row.id}</td>
-
-                    <!-- 支払い年月日 (Editable Input) -->
-                    <td class="py-3 px-4">
-                        <input type="date" value="${row.date}" data-index="${index}" class="input-date bg-transparent border border-transparent hover:border-slate-300 focus:border-emerald-500 focus:bg-white focus:outline-none rounded px-2 py-1 font-medium text-slate-800 transition">
-                    </td>
-
-                    <!-- 入金額 (Editable Input) -->
-                    <td class="py-3 px-4 text-right">
-                        <div class="relative inline-block w-full max-w-[160px]">
-                            <input type="number" value="${row.amount}" data-index="${index}" min="0" step="100" 
-                                class="input-amount text-right w-full bg-white border border-slate-200 focus:border-emerald-500 focus:bg-white focus:ring-2 focus:ring-emerald-200 focus:outline-none rounded-md px-2 py-1 font-semibold text-slate-900 transition-all">
-                        </div>
-                    </td>
-
-                    <!-- 未払い金残高 -->
-                    <td class="py-3 px-4 text-right font-mono font-bold ${row.balance < 0 ? 'text-emerald-600' : 'text-slate-700'}">
-                        ¥${row.balance.toLocaleString()}
-                    </td>
-
-                    <!-- 背景色選択 -->
-                    <td class="py-3 px-4 text-center">
-                        <div class="inline-flex items-center space-x-1.5 bg-white/70 p-1 rounded-lg border border-slate-200">
-                            ${COLOR_OPTIONS.map(color => `
-                                <button type="button" 
-                                    data-index="${index}" 
-                                    data-bg="${color.bgClass}" 
-                                    title="${color.label}" 
-                                    class="btn-color-pick w-5 h-5 rounded-full ${color.badgeClass} hover:scale-110 transition-transform ${row.bgClass === color.bgClass ? 'ring-2 ring-emerald-600 ring-offset-1' : ''}">
-                                </button>
-                            `).join('')}
-                        </div>
-                    </td>
-                `;
-
-                tbody.appendChild(tr);
-            });
-
-            // Attach dynamic input listeners
-            attachTableEventListeners();
+        function formatDateISO(dateObj) {
+            const y = dateObj.getFullYear();
+            const m = String(dateObj.getMonth() + 1).padStart(2, '0');
+            const d = String(dateObj.getDate()).padStart(2, '0');
+            return `${y}-${m}-${d}`;
         }
 
         /**
-         * Dynamic Event Listener setup for table inputs
+         * Displays temporary notification message
          */
-        function attachTableEventListeners() {
-            // Amount Input Listener
-            document.querySelectorAll('.input-amount').forEach(input => {
-                const handleAmountChange = (e) => {
-                    const idx = parseInt(e.target.dataset.index, 10);
-                    let val = parseInt(e.target.value, 10);
-                    if (isNaN(val) || val < 0) val = 0;
-
-                    // Ensure focus is immediately removed
-                    e.target.blur();
-
-                    if (appState.rows[idx].amount !== val) {
-                        appState.rows[idx].amount = val;
-                        appState.rows[idx].isCustomAmount = true;
-
-                        // Automatically redistribute subsequent rows
-                        redistributeRemainingDebt(idx + 1);
-                        renderTable();
-                    }
-                };
-
-                // Enter Key Press logic to remove focus immediately
-                input.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter') {
-                        e.preventDefault();
-                        e.target.blur();
-                    }
-                });
-
-                input.addEventListener('change', handleAmountChange);
-            });
-
-            // Date Input Listener
-            document.querySelectorAll('.input-date').forEach(input => {
-                input.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter') {
-                        e.preventDefault();
-                        e.target.blur();
-                    }
-                });
-
-                input.addEventListener('change', (e) => {
-                    const idx = parseInt(e.target.dataset.index, 10);
-                    appState.rows[idx].date = e.target.value;
-                    e.target.blur();
-                    updateSummary();
-                });
-            });
-
-            // Color Picker Buttons Listener
-            document.querySelectorAll('.btn-color-pick').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const idx = parseInt(e.currentTarget.dataset.index, 10);
-                    const bgClass = e.currentTarget.dataset.bg;
-                    appState.rows[idx].bgClass = bgClass;
-
-                    renderTable();
-                });
-            });
-        }
-
-        /**
-         * Resets all custom amounts and redistributes remaining total evenly
-         */
-        function resetCustomAmountsAndRecalculate() {
-            appState.rows.forEach(r => r.isCustomAmount = false);
-            redistributeRemainingDebt(0);
-            renderTable();
-            showToast('手動入力を解除し、均等再分配しました。', 'info');
-        }
-
-        /**
-         * Resets all row background highlight colors
-         */
-        function resetAllRowColors() {
-            appState.rows.forEach(r => r.bgClass = 'bg-white');
-            renderTable();
-            showToast('すべての背景色ハイライトを初期化しました。', 'info');
-        }
-
-        /**
-         * Updates Summary Cards Data
-         */
-        function updateSummary() {
-            const totalPaid = appState.rows.reduce((sum, r) => sum + (r.amount || 0), 0);
-            const finalBalance = appState.initialDebt - totalPaid;
-            const finishDate = appState.rows.length > 0 ? appState.rows[appState.rows.length - 1].date : '----/--/--';
-
-            document.getElementById('summary-init-debt').innerText = `¥${appState.initialDebt.toLocaleString()}`;
-            document.getElementById('summary-total-paid').innerText = `¥${totalPaid.toLocaleString()}`;
-
-            const finalBalEl = document.getElementById('summary-final-balance');
-            const statusEl = document.getElementById('summary-balance-status');
-
-            finalBalEl.innerText = `¥${finalBalance.toLocaleString()}`;
-
-            if (finalBalance === 0) {
-                finalBalEl.className = 'text-2xl font-bold text-emerald-600';
-                statusEl.innerText = 'ちょうど完済します';
-                statusEl.className = 'text-xs mt-1 text-emerald-600 font-medium';
-            } else if (finalBalance > 0) {
-                finalBalEl.className = 'text-2xl font-bold text-rose-600';
-                statusEl.innerText = `¥${finalBalance.toLocaleString()} 不足しています`;
-                statusEl.className = 'text-xs mt-1 text-rose-600 font-medium';
-            } else {
-                finalBalEl.className = 'text-2xl font-bold text-sky-600';
-                statusEl.innerText = `¥${Math.abs(finalBalance).toLocaleString()} 超過支払い`;
-                statusEl.className = 'text-xs mt-1 text-sky-600 font-medium';
-            }
-
-            document.getElementById('summary-finish-date').innerText = finishDate || '----/--/--';
-
-            // Auto update address bar URL so refreshing (F5) retains state
-            updateBrowserUrlState();
-        }
-
-        /**
-         * Shows Toast Notification
-         */
-        function showToast(message, type = 'info') {
+        function showToast(msg, type = 'info') {
             const toast = document.getElementById('toast-message');
-            toast.className = 'p-4 rounded-xl shadow flex items-center gap-3 transition-all duration-300';
-            
+            if (!toast) return;
+
+            toast.textContent = msg;
+            toast.className = 'p-3 sm:p-4 rounded-xl shadow flex items-center gap-2.5 text-xs sm:text-sm transition-all ';
+
             if (type === 'success') {
-                toast.classList.add('bg-emerald-800', 'text-emerald-100');
-                toast.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400 text-lg"></i><span>${message}</span>`;
+                toast.className += 'bg-emerald-900 text-emerald-100 border border-emerald-700';
             } else if (type === 'error') {
-                toast.classList.add('bg-rose-800', 'text-rose-100');
-                toast.innerHTML = `<i class="fa-solid fa-circle-exclamation text-rose-400 text-lg"></i><span>${message}</span>`;
+                toast.className += 'bg-rose-900 text-rose-100 border border-rose-700';
             } else {
-                toast.classList.add('bg-slate-800', 'text-slate-100');
-                toast.innerHTML = `<i class="fa-solid fa-circle-info text-sky-400 text-lg"></i><span>${message}</span>`;
+                toast.className += 'bg-slate-900 text-slate-100 border border-slate-700';
             }
 
             toast.classList.remove('hidden');
-
             setTimeout(() => {
                 toast.classList.add('hidden');
-            }, 3500);
-        }
-
-        /**
-         * Formats Date to YYYY-MM-DD string
-         */
-        function formatDateISO(d) {
-            const yyyy = d.getFullYear();
-            const mm = String(d.getMonth() + 1).padStart(2, '0');
-            const dd = String(d.getDate()).padStart(2, '0');
-            return `${yyyy}-${mm}-${dd}`;
+            }, 3000);
         }
     </script>
 </body>
