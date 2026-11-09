@@ -43,7 +43,7 @@
                 <h1 class="text-xl font-bold tracking-tight">返済計画シミュレーター</h1>
             </div>
             <div class="text-xs sm:text-sm text-slate-400">
-                <i class="fa-solid fa-calendar-days mr-1"></i> 毎月11日 / 30日 払い対応
+                <i class="fa-solid fa-calendar-days mr-1"></i> 毎月11日 / 月末 払い(土日祝日の場合翌日)
             </div>
             <!-- Dynamic Share URL Button -->
             <button id="btn-share-url" class="px-3 py-1.5 text-xs bg-emerald-600 hover:bg-emerald-500 text-white font-medium rounded-lg shadow transition flex items-center gap-1.5">
@@ -234,19 +234,42 @@
         /**
          * Encodes current app state into URL hash/query and copies to clipboard
          */
+        function getShareableUrl() {
+            const compactState = {
+                d: appState.initialDebt,
+                s: appState.startDate,
+                c: appState.payCount,
+                r: appState.rows.map(r => [r.date, r.amount, r.isCustomAmount ? 1 : 0, r.bgClass])
+            };
+            
+            const jsonStr = JSON.stringify(compactState);
+            const encoded = encodeURIComponent(btoa(unescape(encodeURIComponent(jsonStr))));
+            
+            // Build base URL cleanly without duplicating paths/origins
+            const baseUrl = window.location.href.split('?')[0];
+            return `${baseUrl}?state=${encoded}`;
+        }
+
+        /**
+         * Updates browser URL bar without reloading the page
+         */
+        function updateBrowserUrlState() {
+            try {
+                // Skip history updates in blob or non-http sandboxed environments (e.g. preview pane)
+                if (window.location.protocol.startsWith('blob') || !window.location.protocol.startsWith('http')) {
+                    return;
+                }
+                const newUrl = getShareableUrl();
+                window.history.replaceState({ path: newUrl }, '', newUrl);
+            } catch (err) {
+                // Silently ignore SecurityError in restricted iframe environments
+                console.warn("Could not update URL history in this environment:", err.message);
+            }
+        }
+
         function shareUrlWithState() {
             try {
-                // Compress row state to compact format
-                const compactState = {
-                    d: appState.initialDebt,
-                    s: appState.startDate,
-                    c: appState.payCount,
-                    r: appState.rows.map(r => [r.date, r.amount, r.isCustomAmount ? 1 : 0, r.bgClass])
-                };
-                
-                const jsonStr = JSON.stringify(compactState);
-                const encoded = encodeURIComponent(btoa(unescape(encodeURIComponent(jsonStr))));
-                const shareUrl = `${window.location.origin}${window.location.pathname}?state=${encoded}`;
+                const shareUrl = getShareableUrl();
 
                 // Copy to clipboard using fallback for iframe restrictions
                 const tempInput = document.createElement('textarea');
@@ -492,7 +515,7 @@
                     <td class="py-3 px-4 text-right">
                         <div class="relative inline-block w-full max-w-[160px]">
                             <input type="number" value="${row.amount}" data-index="${index}" min="0" step="100" 
-                                class="input-amount text-right w-full bg-slate-50/80 border border-slate-200 focus:border-emerald-500 focus:bg-white focus:ring-2 focus:ring-emerald-200 focus:outline-none rounded-md px-2 py-1 font-semibold text-slate-900 transition-all ${row.isCustomAmount ? '!bg-amber-50/80 !border-amber-300' : ''}">
+                                class="input-amount text-right w-full bg-white border border-slate-200 focus:border-emerald-500 focus:bg-white focus:ring-2 focus:ring-emerald-200 focus:outline-none rounded-md px-2 py-1 font-semibold text-slate-900 transition-all">
                         </div>
                     </td>
 
@@ -534,6 +557,9 @@
                     let val = parseInt(e.target.value, 10);
                     if (isNaN(val) || val < 0) val = 0;
 
+                    // Ensure focus is immediately removed
+                    e.target.blur();
+
                     if (appState.rows[idx].amount !== val) {
                         appState.rows[idx].amount = val;
                         appState.rows[idx].isCustomAmount = true;
@@ -541,9 +567,6 @@
                         // Automatically redistribute subsequent rows
                         redistributeRemainingDebt(idx + 1);
                         renderTable();
-                    } else {
-                        // Unfocus if value didn't change
-                        e.target.blur();
                     }
                 };
 
@@ -637,6 +660,9 @@
             }
 
             document.getElementById('summary-finish-date').innerText = finishDate || '----/--/--';
+
+            // Auto update address bar URL so refreshing (F5) retains state
+            updateBrowserUrlState();
         }
 
         /**
